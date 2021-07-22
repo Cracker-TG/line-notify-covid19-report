@@ -4,7 +4,7 @@
 
 https://lab-covid.mindbase.co.th/#/apis
 
-##env
-GOPORT
-COVID_KEY
-COVID_TOKEN_LINE_NOTI
+## env
+- GOPORT
+- COVID_KEY
+- COVID_TOKEN_LINE_NOTI

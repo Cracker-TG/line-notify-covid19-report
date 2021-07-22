@@ -10,7 +10,7 @@ import (
 )
 
 type HelpersInteface interface {
-	GetJson(url string, target interface{})  error
+    GetJson(url string, target interface{})  error
     FormatCommas(num int) string
     GetFormatDateThai(date string) string
 }

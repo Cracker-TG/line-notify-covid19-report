@@ -36,8 +36,27 @@ func (mc MainController) PushNoti(c *gin.Context) {
 
 	endpoint := "https://notify-api.line.me/api/notify"
 	data := url.Values{}
-	
-	data.Set("message", "โควิดวันนี้ " + h.FormatCommas(dataForm.Data.DailyCovidCases) + " " + string(emoji.PileOfPoo))
+
+	const (
+    layoutISO = "2006-01-02"
+    layoutUS  = "2 January 2006"
+	)
+
+	date :=  dataForm.Timestamp
+	parts_date := strings.Split(date, "T")
+
+	date_thai := h.GetFormatDateThai(parts_date[0])
+
+	msg :=  string(emoji.FlagForThailand) + 
+					"\nสถานการณ์ COVID-19 ในประเทศไทย\nวันที่  " + date_thai +
+					"\nผู้ติดเชื้อเพิ่มวันนี้ +" + h.FormatCommas(dataForm.Data.DailyCovidCases) + " " + string(emoji.FaceWithMedicalMask) +
+					"\nผู้ติดเชื้อใหม่ +" + h.FormatCommas(dataForm.Data.DailyCovidGeneral) + " " + string(emoji.FaceWithThermometer) +
+					"\nจากเรือนจำ/ที่ต้องขัง +" + h.FormatCommas(dataForm.Data.DailyCovidPrison) + " " + string(emoji.OfficeBuilding) +
+					"\nเสียชีวิตเพิ่มวันนี้ " + h.FormatCommas(dataForm.Data.DailyDeaths) + " " + string(emoji.SkullAndCrossbones) +
+					"\nผู้ป่วยสะสม " + h.FormatCommas(dataForm.Data.CumulativeCovidCases) + " " +  string(emoji.Hospital) +
+					"\nหายป่วยสะสม" + h.FormatCommas(dataForm.Data.CumulativeRecoveredCases) + " " + string(emoji.SlightlySmilingFace)
+
+	data.Set("message", msg)
 
 	client := &http.Client{}
 	r, err := http.NewRequest("POST", endpoint, strings.NewReader(data.Encode()))

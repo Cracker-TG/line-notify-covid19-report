@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
+	"strconv"
 	"time"
 )
 
 type HelpersInteface interface {
 	GetJson(url string, target interface{})  error
     FormatCommas(num int) string
+    GetFormatDateThai(date string) string
 }
 
 type Helpers struct{}
@@ -37,4 +39,12 @@ func (h Helpers) FormatCommas(num int) string {
     }
 
     return str
+}
+
+func (h Helpers) GetFormatDateThai(date string) string  {
+    const (layoutISO = "2006-01-02")
+    month_thai := []string{"มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"}
+	t, _ := time.Parse(layoutISO, date)
+    f := strconv.Itoa(t.Day()) + " " + month_thai[t.Month()-1] + " " + strconv.Itoa(t.Year())
+    return f
 }

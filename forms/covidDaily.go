@@ -5,6 +5,7 @@ type BodyData struct {
 	StatusMsg string `json:"status_msg"`
 	Timestamp string `json:"timestamp"`
 	SpanId string `json:"span_id"`
+	ErrMsg string `json:"error_msg"`
 	Data struct{
 		ID string `json:"id"`
 		IsCurrentDate bool `json:"is_current_date"`

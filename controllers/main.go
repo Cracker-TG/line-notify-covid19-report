@@ -30,8 +30,14 @@ func (mc MainController) PushNoti(c *gin.Context) {
 	token_line := os.Getenv("COVID_TOKEN_LINE_NOTI")
 
 	err := h.GetJson("https://api-lab-covid.mindbase.co.th/v2/stats/daily?key=" + key, dataForm)
+
 	if err != nil {
 		c.JSON(500, gin.H{"status": err})
+	}
+
+	if(dataForm.StatusCode == "MDB-500"){
+		c.JSON(401, gin.H{"status": false, "mssage": dataForm.ErrMsg})	
+		return
 	}
 
 	endpoint := "https://notify-api.line.me/api/notify"

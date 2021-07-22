@@ -36,7 +36,8 @@ func (mc MainController) PushNoti(c *gin.Context) {
 
 	endpoint := "https://notify-api.line.me/api/notify"
 	data := url.Values{}
-	data.Set("message", "โควิดวันนี้ " + strconv.Itoa(dataForm.Data.DailyCovidCases) + string(emoji.PileOfPoo))
+	
+	data.Set("message", "โควิดวันนี้ " + h.FormatCommas(dataForm.Data.DailyCovidCases) + " " + string(emoji.PileOfPoo))
 
 	client := &http.Client{}
 	r, err := http.NewRequest("POST", endpoint, strings.NewReader(data.Encode()))
